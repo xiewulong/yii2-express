@@ -1,0 +1,24 @@
+{
+	"name": "xiewulong/yii2-express",
+	"description": "Express interface",
+	"keywords": ["yii2", "xiewulong", "payment"],
+	"type": "yii2-extension",
+	"license": "MIT",
+	"support": {
+		"issues": "https://github.com/xiewulong/yii2-express/issues",
+		"wiki": "https://github.com/xiewulong/yii2-express/wiki",
+		"source": "https://github.com/xiewulong/yii2-express"
+	},
+	"authors": [
+		{
+			"name": "xiewulong",
+			"email": "xiewulong@vip.qq.com"
+		}
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+	"autoload": {
+		"psr-4": {"yii\\express\\": ""}
+	}
+}
