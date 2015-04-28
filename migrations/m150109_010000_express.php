@@ -18,7 +18,7 @@ class m150109_010000_express extends Migration{
 			'number' => Schema::TYPE_STRING . ' not null comment "快递单号"',
 			'created_at' => Schema::TYPE_INTEGER . ' not null comment "创建时间"',
 			'updated_at' => Schema::TYPE_INTEGER . ' not null comment "更新时间"',
-		], $tableOptions . ' comment="快递信息"');
+		], $tableOptions . ' comment="快递记录"');
 	}
 
 	public function down(){
