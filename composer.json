@@ -1,6 +1,6 @@
 {
 	"name": "xiewulong/yii2-express",
-	"description": "express interface",
+	"description": "Express interface",
 	"keywords": ["yii2", "xiewulong", "express"],
 	"type": "yii2-extension",
 	"license": "MIT",
