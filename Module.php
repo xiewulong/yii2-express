@@ -13,12 +13,6 @@ class Module extends \yii\base\Module{
 
 	public $manager;
 
-	//异步通知内部调用类
-	public $asyncClass;
-
-	//同步通知内部调用路由
-	public $syncRoute;
-
 	public function init(){
 		parent::init();
 
