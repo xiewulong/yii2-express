@@ -16,7 +16,7 @@ class m150509_142253_express extends Migration{
 			'company' => Schema::TYPE_STRING . '(50) not null comment "公司"',
 			'number' => Schema::TYPE_STRING . ' not null comment "单号"',
 			'auth_key' => Schema::TYPE_STRING . '(50) comment "授权密钥"',
-			'status' => Schema::TYPE_STRING . '(50) comment "状态"',
+			'status' => Schema::TYPE_STRING . '(50) comment "当前状态"',
 			'details' => Schema::TYPE_TEXT . ' comment "详情"',
 			'receipted_at' => Schema::TYPE_INTEGER . ' not null default 0 comment "签收时间"',
 			'created_at' => Schema::TYPE_INTEGER . ' not null comment "创建时间"',
