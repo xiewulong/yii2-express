@@ -62,7 +62,7 @@ class Manager{
 		if($express->save()){
 			$express->details = Kd100::sdk($this->key)->poll($company, $number, \Yii::$app->urlManager->createAbsoluteUrl([$this->callback, 'id' => $express->id]), $express->auth_key);
 			if($express->save()){
-				$result = Json::decode($express->data);
+				$result = Json::decode($express->details);
 				return isset($result['returnCode']) && $result['returnCode'] == 200;
 			}
 		}
