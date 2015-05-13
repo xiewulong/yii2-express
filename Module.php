@@ -13,6 +13,9 @@ class Module extends \yii\base\Module{
 
 	public $manager;
 
+	//后台通知内部调用类
+	public $notifyClass;
+
 	public function init(){
 		parent::init();
 

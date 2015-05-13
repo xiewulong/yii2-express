@@ -39,6 +39,9 @@ class Kd100Controller extends Controller{
 					$response['result'] = 'true';
 					$response['returnCode'] = '200';
 					$response['message'] = '成功';
+					if($notifyClass = $this->module->notifyClass){
+						$notifyClass::receipted($id);
+					}
 				}
 			}
 		}
