@@ -58,19 +58,42 @@ class Manager{
 	 * @example Yii::$app->express->send($company, $number);
 	 */
 	public function send($company, $number){
+		$eid = 0;
 		$express = new Express;
 		$express->company = $company;
 		$express->number = $number;
 		$express->generateAuthKey();
 		if($express->save()){
-			$express->details = Kd100::sdk($this->key)->poll($company, $number, \Yii::$app->urlManager->createAbsoluteUrl([$this->callback, 'id' => $express->id]), $express->auth_key, $this->resultv2);
-			if($express->save()){
-				$result = Json::decode($express->details);
-				return isset($result['returnCode']) && $result['returnCode'] == 200 ? $express->id : 0;
+			$result = Json::decode(Kd100::sdk($this->key)->poll($company, $number, \Yii::$app->urlManager->createAbsoluteUrl([$this->callback, 'id' => $express->id]), $express->auth_key, $this->resultv2));
+			if(isset($result['returnCode'])){
+				switch($result['returnCode']){
+					case 200:
+						$express->status = '提交成功';
+						$eid = $express->id;
+						break;
+					case 501:
+						$express->status = '重复订阅';
+						break;
+				}
+				$express->save();
 			}
 		}
 
-		return 0;
+		return $eid;
+	}
+
+	/**
+	 * 快递公司名称
+	 * @method getCompany
+	 * @since 0.0.1
+	 * @param {string} $code 快递公司代码
+	 * @return {string}
+	 * @example Yii::$app->express->getCompany();
+	 */
+	public function getCompany($code){
+		$companies = $this->getCompanies();
+		
+		return isset($companies[$code]) ? $companies[$code] : null;
 	}
 
 	/**
