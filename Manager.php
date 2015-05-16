@@ -5,7 +5,7 @@
  * https://github.com/xiewulong/yii2-express
  * https://raw.githubusercontent.com/xiewulong/yii2-express/master/LICENSE
  * create: 2015/4/28
- * update: 2015/5/13
+ * update: 2015/5/16
  * version: 0.0.1
  */
 
@@ -66,11 +66,11 @@ class Manager{
 			$express->details = Kd100::sdk($this->key)->poll($company, $number, \Yii::$app->urlManager->createAbsoluteUrl([$this->callback, 'id' => $express->id]), $express->auth_key, $this->resultv2);
 			if($express->save()){
 				$result = Json::decode($express->details);
-				return isset($result['returnCode']) && $result['returnCode'] == 200;
+				return isset($result['returnCode']) && $result['returnCode'] == 200 ? $express->id : 0;
 			}
 		}
 
-		return false;
+		return 0;
 	}
 
 	/**
