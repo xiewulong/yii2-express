@@ -5,7 +5,7 @@
  * https://github.com/xiewulong/yii2-express
  * https://raw.githubusercontent.com/xiewulong/yii2-express/master/LICENSE
  * create: 2015/4/28
- * update: 2015/5/16
+ * update: 2015/6/11
  * version: 0.0.1
  */
 
@@ -18,6 +18,9 @@ use yii\express\apis\Kd100;
 use yii\express\models\Express;
 
 class Manager{
+
+	//通知地址的协议类型, 'http'或'https'
+	public $protocol = null;
 
 	//回调路由
 	public $callback;
@@ -64,7 +67,7 @@ class Manager{
 		$express->number = $number;
 		$express->generateAuthKey();
 		if($express->save()){
-			$result = Json::decode(Kd100::sdk($this->key)->poll($company, $number, \Yii::$app->urlManager->createAbsoluteUrl([$this->callback, 'id' => $express->id]), $express->auth_key, $this->resultv2));
+			$result = Json::decode(Kd100::sdk($this->key)->poll($company, $number, \Yii::$app->urlManager->createAbsoluteUrl([$this->callback, 'id' => $express->id], $this->protocol), $express->auth_key, $this->resultv2));
 			if(isset($result['returnCode'])){
 				switch($result['returnCode']){
 					case 200:
