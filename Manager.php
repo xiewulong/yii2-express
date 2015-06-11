@@ -19,11 +19,14 @@ use yii\express\models\Express;
 
 class Manager{
 
+	//回调路由
+	public $callback;
+
 	//通知地址的协议类型, 'http'或'https'
 	public $protocol = null;
 
-	//回调路由
-	public $callback;
+	//通知地址的域名
+	public $domain = null;
 
 	//快递100密钥
 	public $key;
@@ -70,7 +73,7 @@ class Manager{
 		$express->number = $number;
 		$express->generateAuthKey();
 		if($express->save()){
-			$result = $this->debug ? ['returnCode' => 200] : Json::decode(Kd100::sdk($this->key)->poll($company, $number, \Yii::$app->urlManager->createAbsoluteUrl([$this->callback, 'id' => $express->id], $this->protocol), $express->auth_key, $this->resultv2));
+			$result = $this->debug ? ['returnCode' => 200] : Json::decode(Kd100::sdk($this->key)->poll($company, $number, $this->getUrl($express->id), $express->auth_key, $this->resultv2));
 			if(isset($result['returnCode'])){
 				switch($result['returnCode']){
 					case 200:
@@ -131,6 +134,18 @@ class Manager{
 		}
 
 		return isset($this->statuses[$code]) ? $this->statuses[$code] : null;
+	}
+
+	/**
+	 * 获取回调绝对地址
+	 * @method getUrl
+	 * @since 0.0.1
+	 * @param {string} $id 快递单id
+	 * @return {string}
+	 * @example $this->getUrl($id);
+	 */
+	private function getUrl($id){
+		return empty($this->domain) ? \Yii::$app->urlManager->createAbsoluteUrl([$this->callback, 'id' => $id], $this->protocol) : $this->domain . $this->callback . '?id=' . $id;
 	}
 
 }
