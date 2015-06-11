@@ -33,6 +33,9 @@ class Manager{
 
 	//启用行政区域解析功能
 	public $resultv2 = false;
+
+	//是否测试
+	public $testing = false;
 	
 	//快递状态列表
 	private $statuses = [];
@@ -67,7 +70,7 @@ class Manager{
 		$express->number = $number;
 		$express->generateAuthKey();
 		if($express->save()){
-			$result = Json::decode(Kd100::sdk($this->key)->poll($company, $number, \Yii::$app->urlManager->createAbsoluteUrl([$this->callback, 'id' => $express->id], $this->protocol), $express->auth_key, $this->resultv2));
+			$result = $this->testing ? ['returnCode' => 200] : Json::decode(Kd100::sdk($this->key)->poll($company, $number, \Yii::$app->urlManager->createAbsoluteUrl([$this->callback, 'id' => $express->id], $this->protocol), $express->auth_key, $this->resultv2));
 			if(isset($result['returnCode'])){
 				switch($result['returnCode']){
 					case 200:
