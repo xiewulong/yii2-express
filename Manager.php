@@ -5,7 +5,7 @@
  * https://github.com/xiewulong/yii2-express
  * https://raw.githubusercontent.com/xiewulong/yii2-express/master/LICENSE
  * create: 2015/4/28
- * update: 2015/6/11
+ * update: 2015/6/21
  * version: 0.0.1
  */
 
@@ -68,23 +68,27 @@ class Manager{
 	 */
 	public function send($company, $number){
 		$eid = 0;
-		$express = new Express;
-		$express->company = $company;
-		$express->number = $number;
-		$express->generateAuthKey();
-		if($express->save()){
-			$result = $this->debug ? ['returnCode' => 200] : Json::decode(Kd100::sdk($this->key)->poll($company, $number, $this->getUrl($express->id), $express->auth_key, $this->resultv2));
-			if(isset($result['returnCode'])){
-				switch($result['returnCode']){
-					case 200:
-						$express->status = '提交成功';
-						$eid = $express->id;
-						break;
-					case 501:
-						$express->status = '重复订阅';
-						break;
+		if($express = Express::findOne(['company' => $company, 'number' => $number])){
+			$eid = $express->id;
+		}else{
+			$express = new Express;
+			$express->company = $company;
+			$express->number = $number;
+			$express->generateAuthKey();
+			if($express->save()){
+				$result = $this->debug ? ['returnCode' => 200] : Json::decode(Kd100::sdk($this->key)->poll($company, $number, $this->getUrl($express->id), $express->auth_key, $this->resultv2));
+				if(isset($result['returnCode'])){
+					switch($result['returnCode']){
+						case 200:
+							$express->status = '提交成功';
+							$eid = $express->id;
+							break;
+						case 501:
+							$express->status = '重复订阅';
+							break;
+					}
+					$express->save();
 				}
-				$express->save();
 			}
 		}
 
