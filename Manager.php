@@ -5,7 +5,7 @@
  * https://github.com/xiewulong/yii2-express
  * https://raw.githubusercontent.com/xiewulong/yii2-express/master/LICENSE
  * create: 2015/4/28
- * update: 2015/6/21
+ * update: 2015/10/6
  * version: 0.0.1
  */
 
@@ -51,7 +51,7 @@ class Manager{
 	 * @param {string} $param 数据
 	 * @param {string} $salt 签名用随机字符串
 	 * @return {boolean}
-	 * @example Yii::$app->express->verify($sign, $param, $salt);
+	 * @example \Yii::$app->express->verify($sign, $param, $salt);
 	 */
 	public function verify($sign, $param, $salt){
 		return Kd100::sdk($this->key)->verify($sign, $param, $salt);
@@ -64,7 +64,7 @@ class Manager{
 	 * @param {string} $company 快递公司代码
 	 * @param {string} $number 快递单号
 	 * @return {boolean}
-	 * @example Yii::$app->express->send($company, $number);
+	 * @example \Yii::$app->express->send($company, $number);
 	 */
 	public function send($company, $number){
 		$eid = 0;
@@ -101,7 +101,7 @@ class Manager{
 	 * @since 0.0.1
 	 * @param {string} $code 快递公司代码
 	 * @return {string}
-	 * @example Yii::$app->express->getCompany();
+	 * @example \Yii::$app->express->getCompany();
 	 */
 	public function getCompany($code){
 		$companies = $this->getCompanies();
@@ -114,7 +114,7 @@ class Manager{
 	 * @method getCompanies
 	 * @since 0.0.1
 	 * @return {array}
-	 * @example Yii::$app->express->getCompanies();
+	 * @example \Yii::$app->express->getCompanies();
 	 */
 	public function getCompanies(){
 		if(empty($this->companies)){
@@ -130,7 +130,7 @@ class Manager{
 	 * @since 0.0.1
 	 * @param {string} $code 状态码
 	 * @return {string}
-	 * @example Yii::$app->express->getStatus($code);
+	 * @example \Yii::$app->express->getStatus($code);
 	 */
 	public function getStatus($code){
 		if(empty($this->statuses)){
